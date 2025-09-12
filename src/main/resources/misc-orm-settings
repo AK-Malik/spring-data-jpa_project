@@ -1,0 +1,18 @@
+# Below configs signify misc ORM settings:
+
+spring.jpa.hibernate.ddl-auto=update // need to be in properties file, default config will pick it up -- not tested
+hibernate.hbm2ddl.auto=update // can be used during  programmatic config -- tested 
+hibernate.show_sql=true // can be used during  programmatic config -- tested 
+hibernate.format_sql=true //  can be used during  programmatic config -- tested 
+
+spring.datasource.hikari.connection-timeout=60000 // need to be in properties file, default config will pick it up -- not tested
+spring.datasource.hikari.maximum-pool-size=5 // need to be in properties file, default config will pick it up -- not tested
+
+For entire logging section :
+// need to be in properties file, default config will pick it up -- not tested
+logging.pattern.console=%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n
+logging.level.org.hibernate.SQL=debug
+logging.level.org.hibernate.type.descriptor.sql=trace
+logging.level.=error
+
+spring.datasource.driver-class-oracle.jdbc.driver.OracleDriver // need to be in properties file, default config will pick it up -- not tested

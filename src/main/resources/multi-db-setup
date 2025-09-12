@@ -1,0 +1,19 @@
+# Use the below configuration for multi-db connection semi-programmatically
+
+Oracle schema C##SUBHAJIT
+oracle1.datasource.jdbc-url=jdbc:oracle:thin:@localhost:1521/orcl 
+oracle1.datasource.username=C##SUBHAJIT 
+oracle1.datasource.password=LION 
+oracle1.datasource.maximum-pool-size= 3
+
+Oracle schema C##PALLOBI
+oracle2.datasource.jdbc-url=jdbc:oracle:thin:@localhost:1521/orcl 
+oracle2.datasource.username=C##PALLOBI 
+oracle2.datasource.password=LION 
+oracle2.datasource.maximum-pool-size= 5
+
+MySql schema
+mysql.datasource.jdbc-url=jdbc:mysql://localhost:3308/subhajit
+mysql.datasource.username=root
+mysql.datasource.password=
+mysql.datasource.maximum-pool-size= 5

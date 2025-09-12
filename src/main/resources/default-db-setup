@@ -1,0 +1,7 @@
+# Use the below configuration for single db using default spring-jpa configuartion
+
+Oracle schema C##ANIL
+spring.datasource.url=jdbc:oracle:thin:@localhost:1521/orcl 
+spring.datasource.username=C##ANIL
+spring.datasource.password=admin
+spring.datasource.maximum-pool-size= 8
