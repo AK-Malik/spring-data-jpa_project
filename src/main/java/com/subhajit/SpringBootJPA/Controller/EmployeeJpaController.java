@@ -1,5 +1,6 @@
 package com.subhajit.SpringBootJPA.Controller;
 
+import com.subhajit.SpringBootJPA.Service.EmployeeJsqlService;
 import com.subhajit.SpringBootJPA.Service.EmployeeService;
 import com.subhajit.SpringBootJPA.oracle1.entity.EmployeeEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import java.util.List;
 public class EmployeeJpaController {
     @Autowired
     private EmployeeService employeeService;
+
+    @Autowired
+    private EmployeeJsqlService employeeJsqlService;
 
     //pass an inputs in JSON format under body in Postman and store/add in Table/Pojo of EmployeeEntity
 
@@ -30,7 +34,7 @@ public class EmployeeJpaController {
 
     @PostMapping("/addEmployee")
     public ResponseEntity<Void> addEmployee(@RequestBody EmployeeEntity employeeEntity) {
-        System.out.println("Employee added: " + employeeEntity);
+        System.out.println("Employee record to be added: " + employeeEntity);
         return employeeService.addEmployee(employeeEntity);                      //  return new ResponseEntity<>(employeeEntity, HttpStatus.CREATED);
     }
 
@@ -56,5 +60,58 @@ public class EmployeeJpaController {
     @PutMapping("/updateAnEmployeeById/{empId}")
     public ResponseEntity<Void> updateAnEmployeeById(@PathVariable Long empId, @RequestBody EmployeeEntity employeeEntity) {
         return employeeService.updateAnEmployeeById(empId, employeeEntity);
+    }
+
+    /*****Using JQL and SQL
+     * JPQL
+     */
+
+    @GetMapping("/fetchAllRecordsWithJpql")
+    public ResponseEntity<List<EmployeeEntity>> fetchAllEmployeeRecordsWithJpql() {
+        System.out.println("Processing incoming Jpql request.. ");
+        if(employeeJsqlService.fetchAllEmployeeRecordsWithJpql()==null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return employeeJsqlService.fetchAllEmployeeRecordsWithJpql();
+    }
+
+    //QAK -why no logs/error message when empId =null
+    @GetMapping("/fetchDataJPQL/{empId}")      //if empId ==null ( it will automatically check and return HTTP 404 bad request.)
+    public ResponseEntity<EmployeeEntity> fetchDataJPQL(@PathVariable Long empId) {
+        System.out.println("Processing incoming Jpql request.. ");
+//        if (empId == null) {
+//            System.out.println("empId is null");
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST); // Or return ResponseEntity.badRequest().build();   //It returns an HTTP 400 response with an empty body, indicating the client sent an invalid request.
+//        }
+        System.out.println("Executing the Jpql request for empId: " + empId);
+        return employeeJsqlService.fetchDataJPQL(empId);
+    }
+    //JPQL doesn't support an Insert statement
+//    @PostMapping("/addEmployeeRecordByJpql")
+//    public ResponseEntity<Void> addEmployeeRecordByJpql(@RequestBody EmployeeEntity employeeEntity) {
+//        System.out.println("Employee Record to be added in Employee_Record Table: " + employeeEntity);
+//        return employeeJsqlService.addEmployeeRecord(employeeEntity);      //  return new ResponseEntity<>(employeeEntity, HttpStatus.CREATED);
+//    }
+
+    //Update an employeeRecord
+    @PutMapping("/updateAnEmployeeByIdWithJpql/{empId}")
+    public ResponseEntity<Void> updateAnEmployeeByIdWithJpql(@PathVariable Long empId, @RequestBody EmployeeEntity employeeEntity) {
+        System.out.println("Employee Record to be updated for empId:: " + empId);
+        return employeeJsqlService.updateAnEmployeeById(empId, employeeEntity);
+    }
+
+    //Delete an employeeRecord
+    @DeleteMapping("/deleteAnEmployeeByIdWithJpql/{empId}")
+    public ResponseEntity<Void> deleteAnEmployeeByIdWithJpql(@PathVariable Long empId) {
+        System.out.println("Employee Record to be deleted for empId:: " + empId);
+        return employeeJsqlService.deleteAnEmployeeById(empId);
+    }
+
+
+    /*** Using SQL ****/
+
+    @GetMapping("/fetchDataSQL/{empId}")
+    public ResponseEntity<EmployeeEntity> fetchDataSQL(@PathVariable(required = true) Long empId) {
+        return employeeJsqlService.fetchDataSQL(empId);
     }
 }
