@@ -94,9 +94,9 @@ public ResponseEntity<Void> updateAnEmployeeById(Long empId, EmployeeEntity empl
     public ResponseEntity<EmployeeEntity> fetchDataSQL(Long empId){
     EmployeeEntity employeeEntity =  employeeJpaSqlRepo.findByIdSQL(empId);
     if(employeeEntity !=null) {
-        System.out.println("Employee Record " + empId + " has been deleted in Employee_Record Table");
+        System.out.println("Employee Record " + empId + " exist in Employee_Record Table");
     }else{
-        System.out.println("Unable to delete as, Employee Record "+empId+" doesn't exist in Employee_Record table");
+        System.out.println("Unable to find as, Employee Record "+empId+" doesn't exist in Employee_Record table");
         }
     return new ResponseEntity<>( HttpStatus.ACCEPTED);
 }
